@@ -1,0 +1,436 @@
+g22_demo=# 
+g22_demo=# \d+
+                       List of relations
+ Schema |   Name   | Type  | Owner  |    Size    | Description 
+--------+----------+-------+--------+------------+-------------
+ public | personas | table | harove | 8192 bytes | 
+(1 row)
+
+g22_demo=# DROP TABLE personas;
+DROP TABLE
+g22_demo=# \d+;
+Did not find any relations.
+g22_demo=# CREATE TABLE people(#id SERIAL,name VARCHAR(50));
+2019-05-17 12:44:07.461 -04 [79566] ERROR:  syntax error at or near "#" at character 21
+2019-05-17 12:44:07.461 -04 [79566] STATEMENT:  CREATE TABLE people(#id SERIAL,name VARCHAR(50));
+ERROR:  syntax error at or near "#"
+LINE 1: CREATE TABLE people(#id SERIAL,name VARCHAR(50));
+                            ^
+g22_demo=# CREATE TABLE people(#id SERIAL,name VARCHAR(50));
+2019-05-17 12:44:15.446 -04 [79566] ERROR:  syntax error at or near "#" at character 21
+2019-05-17 12:44:15.446 -04 [79566] STATEMENT:  CREATE TABLE people(#id SERIAL,name VARCHAR(50));
+ERROR:  syntax error at or near "#"
+LINE 1: CREATE TABLE people(#id SERIAL,name VARCHAR(50));
+                            ^
+g22_demo=# CREATE TABLE people(id SERIAL,name VARCHAR(50));
+CREATE TABLE
+g22_demo=# INSERT INTO people (name) VALUES ('Peter'),('Seba');
+INSERT 0 2
+g22_demo=# \d+
+                           List of relations
+ Schema |     Name      |   Type   | Owner  |    Size    | Description 
+--------+---------------+----------+--------+------------+-------------
+ public | people        | table    | harove | 8192 bytes | 
+ public | people_id_seq | sequence | harove | 8192 bytes | 
+(2 rows)
+
+g22_demo=# \d
+             List of relations
+ Schema |     Name      |   Type   | Owner  
+--------+---------------+----------+--------
+ public | people        | table    | harove
+ public | people_id_seq | sequence | harove
+(2 rows)
+
+g22_demo=# \l
+                          List of databases
+   Name    | Owner  | Encoding | Collate | Ctype | Access privileges 
+-----------+--------+----------+---------+-------+-------------------
+ g22_demo  | harove | UTF8     | C       | C     | 
+ harove    | harove | UTF8     | C       | C     | 
+ postgres  | harove | UTF8     | C       | C     | 
+ template0 | harove | UTF8     | C       | C     | =c/harove        +
+           |        |          |         |       | harove=CTc/harove
+ template1 | harove | UTF8     | C       | C     | =c/harove        +
+           |        |          |         |       | harove=CTc/harove
+(5 rows)
+
+g22_demo=# \du
+                                   List of roles
+ Role name |                         Attributes                         | Member of 
+-----------+------------------------------------------------------------+-----------
+ harove    | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+
+g22_demo=# \l
+                          List of databases
+   Name    | Owner  | Encoding | Collate | Ctype | Access privileges 
+-----------+--------+----------+---------+-------+-------------------
+ g22_demo  | harove | UTF8     | C       | C     | 
+ harove    | harove | UTF8     | C       | C     | 
+ postgres  | harove | UTF8     | C       | C     | 
+ template0 | harove | UTF8     | C       | C     | =c/harove        +
+           |        |          |         |       | harove=CTc/harove
+ template1 | harove | UTF8     | C       | C     | =c/harove        +
+           |        |          |         |       | harove=CTc/harove
+(5 rows)
+
+g22_demo=# \dt
+        List of relations
+ Schema |  Name  | Type  | Owner  
+--------+--------+-------+--------
+ public | people | table | harove
+(1 row)
+
+g22_demo=# \d+
+                           List of relations
+ Schema |     Name      |   Type   | Owner  |    Size    | Description 
+--------+---------------+----------+--------+------------+-------------
+ public | people        | table    | harove | 8192 bytes | 
+ public | people_id_seq | sequence | harove | 8192 bytes | 
+(2 rows)
+
+g22_demo=# ALTER TABLE people RENAME TO users;
+ALTER TABLE
+g22_demo=# \dt
+        List of relations
+ Schema | Name  | Type  | Owner  
+--------+-------+-------+--------
+ public | users | table | harove
+(1 row)
+
+g22_demo=# \d
+             List of relations
+ Schema |     Name      |   Type   | Owner  
+--------+---------------+----------+--------
+ public | people_id_seq | sequence | harove
+ public | users         | table    | harove
+(2 rows)
+
+g22_demo=# \l
+                          List of databases
+   Name    | Owner  | Encoding | Collate | Ctype | Access privileges 
+-----------+--------+----------+---------+-------+-------------------
+ g22_demo  | harove | UTF8     | C       | C     | 
+ harove    | harove | UTF8     | C       | C     | 
+ postgres  | harove | UTF8     | C       | C     | 
+ template0 | harove | UTF8     | C       | C     | =c/harove        +
+           |        |          |         |       | harove=CTc/harove
+ template1 | harove | UTF8     | C       | C     | =c/harove        +
+           |        |          |         |       | harove=CTc/harove
+(5 rows)
+
+g22_demo=# \d+
+                           List of relations
+ Schema |     Name      |   Type   | Owner  |    Size    | Description 
+--------+---------------+----------+--------+------------+-------------
+ public | people_id_seq | sequence | harove | 8192 bytes | 
+ public | users         | table    | harove | 8192 bytes | 
+(2 rows)
+
+g22_demo=# SELECT * FROM users;
+ id | name  
+----+-------
+  1 | Peter
+  2 | Seba
+(2 rows)
+
+g22_demo=# \d+
+                           List of relations
+ Schema |     Name      |   Type   | Owner  |    Size    | Description 
+--------+---------------+----------+--------+------------+-------------
+ public | people_id_seq | sequence | harove | 8192 bytes | 
+ public | users         | table    | harove | 8192 bytes | 
+(2 rows)
+
+g22_demo=# \d+ users
+                                                        Table "public.users"
+ Column |         Type          | Collation | Nullable |              Default               | Storage  | Stats target | Description 
+--------+-----------------------+-----------+----------+------------------------------------+----------+--------------+-------------
+ id     | integer               |           | not null | nextval('people_id_seq'::regclass) | plain    |              | 
+ name   | character varying(50) |           |          |                                    | extended |              | 
+
+g22_demo=# INSERT INTO users VALUES ('test1'),('test2');
+2019-05-17 12:53:19.233 -04 [79566] ERROR:  invalid input syntax for integer: "test1" at character 27
+2019-05-17 12:53:19.233 -04 [79566] STATEMENT:  INSERT INTO users VALUES ('test1'),('test2');
+ERROR:  invalid input syntax for integer: "test1"
+LINE 1: INSERT INTO users VALUES ('test1'),('test2');
+                                  ^
+g22_demo=# 
+g22_demo=# \d+ users
+                                                        Table "public.users"
+ Column |         Type          | Collation | Nullable |              Default               | Storage  | Stats target | Description 
+--------+-----------------------+-----------+----------+------------------------------------+----------+--------------+-------------
+ id     | integer               |           | not null | nextval('people_id_seq'::regclass) | plain    |              | 
+ name   | character varying(50) |           |          |                                    | extended |              | 
+
+g22_demo=# SELECT * FROM users
+g22_demo-# ;
+ id | name  
+----+-------
+  1 | Peter
+  2 | Seba
+(2 rows)
+
+g22_demo=# SELECT * FROM users;
+ id | name  
+----+-------
+  1 | Peter
+  2 | Seba
+(2 rows)
+
+g22_demo=# SELECT * FROM users;
+ id | name  
+----+-------
+  1 | Peter
+  2 | Seba
+(2 rows)
+
+g22_demo=# SELECT * FROM users WHERE name LIKE 'P%';
+ id | name  
+----+-------
+  1 | Peter
+(1 row)
+
+g22_demo=# INSERT INTO users VALUES ('seba'),('seba');
+2019-05-17 15:01:06.991 -04 [79566] ERROR:  invalid input syntax for integer: "seba" at character 27
+2019-05-17 15:01:06.991 -04 [79566] STATEMENT:  INSERT INTO users VALUES ('seba'),('seba');
+ERROR:  invalid input syntax for integer: "seba"
+LINE 1: INSERT INTO users VALUES ('seba'),('seba');
+                                  ^
+g22_demo=# INSERT INTO users VALUES 'seba'
+g22_demo-# ;
+2019-05-17 15:01:25.631 -04 [79566] ERROR:  syntax error at or near "'seba'" at character 26
+2019-05-17 15:01:25.631 -04 [79566] STATEMENT:  INSERT INTO users VALUES 'seba'
+	;
+ERROR:  syntax error at or near "'seba'"
+LINE 1: INSERT INTO users VALUES 'seba'
+                                 ^
+g22_demo=# \d+ users
+                                                        Table "public.users"
+ Column |         Type          | Collation | Nullable |              Default               | Storage  | Stats target | Description 
+--------+-----------------------+-----------+----------+------------------------------------+----------+--------------+-------------
+ id     | integer               |           | not null | nextval('people_id_seq'::regclass) | plain    |              | 
+ name   | character varying(50) |           |          |                                    | extended |              | 
+
+g22_demo=# SELECT * FROM users;
+ id | name  
+----+-------
+  1 | Peter
+  2 | Seba
+(2 rows)
+
+g22_demo=# INSERT INTO name VALUES ('seba'),('seba');
+2019-05-17 15:03:15.645 -04 [79566] ERROR:  relation "name" does not exist at character 13
+2019-05-17 15:03:15.645 -04 [79566] STATEMENT:  INSERT INTO name VALUES ('seba'),('seba');
+ERROR:  relation "name" does not exist
+LINE 1: INSERT INTO name VALUES ('seba'),('seba');
+                    ^
+g22_demo=# INSERT INTO name VALUES 'seba';
+2019-05-17 15:03:24.740 -04 [79566] ERROR:  syntax error at or near "'seba'" at character 25
+2019-05-17 15:03:24.740 -04 [79566] STATEMENT:  INSERT INTO name VALUES 'seba';
+ERROR:  syntax error at or near "'seba'"
+LINE 1: INSERT INTO name VALUES 'seba';
+                                ^
+g22_demo=# INSERT INTO users (name) VALUES ('seba');
+INSERT 0 1
+g22_demo=# INSERT INTO users (name) VALUES ('seba');
+INSERT 0 1
+g22_demo=# INSERT INTO users (name) VALUES ('seba');
+INSERT 0 1
+g22_demo=# DELETE FROM users WHERE name='seba' ORDER BY id ASC LIMIT 1;
+2019-05-17 15:06:07.458 -04 [79566] ERROR:  syntax error at or near "ORDER" at character 37
+2019-05-17 15:06:07.458 -04 [79566] STATEMENT:  DELETE FROM users WHERE name='seba' ORDER BY id ASC LIMIT 1;
+ERROR:  syntax error at or near "ORDER"
+LINE 1: DELETE FROM users WHERE name='seba' ORDER BY id ASC LIMIT 1;
+                                            ^
+g22_demo=# DELETE FROM users WHERE name='seba' ORDER BY id ASC LIMIT 2;
+2019-05-17 15:06:45.245 -04 [79566] ERROR:  syntax error at or near "ORDER" at character 37
+2019-05-17 15:06:45.245 -04 [79566] STATEMENT:  DELETE FROM users WHERE name='seba' ORDER BY id ASC LIMIT 2;
+ERROR:  syntax error at or near "ORDER"
+LINE 1: DELETE FROM users WHERE name='seba' ORDER BY id ASC LIMIT 2;
+                                            ^
+g22_demo=# DELETE FROM users WHERE name IN (SELECT * FROM users WHERE name=seba LIMIT 1);
+2019-05-17 15:10:42.975 -04 [79566] ERROR:  column "seba" does not exist at character 65
+2019-05-17 15:10:42.975 -04 [79566] STATEMENT:  DELETE FROM users WHERE name IN (SELECT * FROM users WHERE name=seba LIMIT 1);
+ERROR:  column "seba" does not exist
+LINE 1: ...ers WHERE name IN (SELECT * FROM users WHERE name=seba LIMIT...
+                                                             ^
+g22_demo=# DELETE FROM users WHERE name IN (SELECT * FROM users WHERE name='seba' LIMIT 1);
+2019-05-17 15:10:55.805 -04 [79566] ERROR:  subquery has too many columns at character 30
+2019-05-17 15:10:55.805 -04 [79566] STATEMENT:  DELETE FROM users WHERE name IN (SELECT * FROM users WHERE name='seba' LIMIT 1);
+ERROR:  subquery has too many columns
+LINE 1: DELETE FROM users WHERE name IN (SELECT * FROM users WHERE n...
+                                     ^
+g22_demo=# DELETE FROM users WHERE id IN (SELECT * FROM users WHERE name=seba LIMIT 1);
+2019-05-17 15:11:38.127 -04 [79566] ERROR:  column "seba" does not exist at character 63
+2019-05-17 15:11:38.127 -04 [79566] STATEMENT:  DELETE FROM users WHERE id IN (SELECT * FROM users WHERE name=seba LIMIT 1);
+ERROR:  column "seba" does not exist
+LINE 1: ...users WHERE id IN (SELECT * FROM users WHERE name=seba LIMIT...
+                                                             ^
+g22_demo=# DELETE FROM users WHERE id IN (SELECT * FROM users WHERE name='seba' LIMIT 1);
+2019-05-17 15:11:46.622 -04 [79566] ERROR:  subquery has too many columns at character 28
+2019-05-17 15:11:46.622 -04 [79566] STATEMENT:  DELETE FROM users WHERE id IN (SELECT * FROM users WHERE name='seba' LIMIT 1);
+ERROR:  subquery has too many columns
+LINE 1: DELETE FROM users WHERE id IN (SELECT * FROM users WHERE nam...
+                                   ^
+g22_demo=# DELETE FROM users WHERE id IN (SELECT * FROM users WHERE name='seba' ORDER BY id  LIMIT 1);
+2019-05-17 15:12:20.565 -04 [79566] ERROR:  subquery has too many columns at character 28
+2019-05-17 15:12:20.565 -04 [79566] STATEMENT:  DELETE FROM users WHERE id IN (SELECT * FROM users WHERE name='seba' ORDER BY id  LIMIT 1);
+ERROR:  subquery has too many columns
+LINE 1: DELETE FROM users WHERE id IN (SELECT * FROM users WHERE nam...
+                                   ^
+g22_demo=# DELETE FROM users WHERE id IN(SELECT * FROM users WHERE name='seba' ORDER BY id  LIMIT 1);
+2019-05-17 15:12:29.037 -04 [79566] ERROR:  subquery has too many columns at character 28
+2019-05-17 15:12:29.037 -04 [79566] STATEMENT:  DELETE FROM users WHERE id IN(SELECT * FROM users WHERE name='seba' ORDER BY id  LIMIT 1);
+ERROR:  subquery has too many columns
+LINE 1: DELETE FROM users WHERE id IN(SELECT * FROM users WHERE name...
+                                   ^
+g22_demo=# DELETE FROM users WHERE ctid IN(SELECT * FROM users WHERE name='seba' ORDER BY id  LIMIT 1);
+2019-05-17 15:12:50.507 -04 [79566] ERROR:  subquery has too many columns at character 30
+2019-05-17 15:12:50.507 -04 [79566] STATEMENT:  DELETE FROM users WHERE ctid IN(SELECT * FROM users WHERE name='seba' ORDER BY id  LIMIT 1);
+ERROR:  subquery has too many columns
+LINE 1: DELETE FROM users WHERE ctid IN(SELECT * FROM users WHERE na...
+                                     ^
+g22_demo=# DELETE FROM users WHERE ctid IN(SELECT ctid FROM users WHERE name='seba' ORDER BY id  LIMIT 1);
+DELETE 1
+g22_demo=# \q
+Edgars-MBP:desafio4_3_2objetos2 harove$ 
+Edgars-MBP:desafio4_3_2objetos2 harove$ psql
+psql (11.3)
+Type "help" for help.
+
+harove=# \du
+                                   List of roles
+ Role name |                         Attributes                         | Member of 
+-----------+------------------------------------------------------------+-----------
+ harove    | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+
+harove=# \l
+                          List of databases
+   Name    | Owner  | Encoding | Collate | Ctype | Access privileges 
+-----------+--------+----------+---------+-------+-------------------
+ g22_demo  | harove | UTF8     | C       | C     | 
+ harove    | harove | UTF8     | C       | C     | 
+ postgres  | harove | UTF8     | C       | C     | 
+ template0 | harove | UTF8     | C       | C     | =c/harove        +
+           |        |          |         |       | harove=CTc/harove
+ template1 | harove | UTF8     | C       | C     | =c/harove        +
+           |        |          |         |       | harove=CTc/harove
+(5 rows)
+
+harove=# CREATE DATABASE movies;
+CREATE DATABASE
+harove=# \c movies
+You are now connected to database "movies" as user "harove".
+movies=# CREATE TABLE movie (id SERIAL, name VARCHAR(50));
+CREATE TABLE
+movies=# \d+ movies
+Did not find any relation named "movies".
+movies=# \d+ movie
+                                                       Table "public.movie"
+ Column |         Type          | Collation | Nullable |              Default              | Storage  | Stats target | Description 
+--------+-----------------------+-----------+----------+-----------------------------------+----------+--------------+-------------
+ id     | integer               |           | not null | nextval('movie_id_seq'::regclass) | plain    |              | 
+ name   | character varying(50) |           |          |                                   | extended |              | 
+
+movies=# ALTER TABLE movie RENAME TO movies;
+ALTER TABLE
+movies=# \d+ movies
+                                                       Table "public.movies"
+ Column |         Type          | Collation | Nullable |              Default              | Storage  | Stats target | Description 
+--------+-----------------------+-----------+----------+-----------------------------------+----------+--------------+-------------
+ id     | integer               |           | not null | nextval('movie_id_seq'::regclass) | plain    |              | 
+ name   | character varying(50) |           |          |                                   | extended |              | 
+
+movies=# INSERT INTO movies (name) VALUES ('EL REY LEON');
+INSERT 0 1
+movies=# INSERT INTO movies (name) VALUES ('TERMINATOR 2');
+INSERT 0 1
+movies=# ALTER TABLE movies ADD COLUMN year date;
+ALTER TABLE
+movies=# \d+ movies
+                                                       Table "public.movies"
+ Column |         Type          | Collation | Nullable |              Default              | Storage  | Stats target | Description 
+--------+-----------------------+-----------+----------+-----------------------------------+----------+--------------+-------------
+ id     | integer               |           | not null | nextval('movie_id_seq'::regclass) | plain    |              | 
+ name   | character varying(50) |           |          |                                   | extended |              | 
+ year   | date                  |           |          |                                   | plain    |              | 
+
+movies=# ALTER TABLE movies ADD COLUMN gender VARCHAR(50);
+ALTER TABLE
+movies=# \d+ movies
+                                                       Table "public.movies"
+ Column |         Type          | Collation | Nullable |              Default              | Storage  | Stats target | Description 
+--------+-----------------------+-----------+----------+-----------------------------------+----------+--------------+-------------
+ id     | integer               |           | not null | nextval('movie_id_seq'::regclass) | plain    |              | 
+ name   | character varying(50) |           |          |                                   | extended |              | 
+ year   | date                  |           |          |                                   | plain    |              | 
+ gender | character varying(50) |           |          |                                   | extended |              | 
+
+movies=# UPDATE movies SET date 1984-01-01
+movies-# UPDATE movies SET gender 'Drama';
+2019-05-17 15:31:00.212 -04 [81727] ERROR:  syntax error at or near "1984" at character 24
+2019-05-17 15:31:00.212 -04 [81727] STATEMENT:  UPDATE movies SET date 1984-01-01
+	UPDATE movies SET gender 'Drama';
+ERROR:  syntax error at or near "1984"
+LINE 1: UPDATE movies SET date 1984-01-01
+                               ^
+movies=# UPDATE movies SET date 1984-01-01
+UPDATE movies SET gender 'Drama';
+2019-05-17 15:31:03.376 -04 [81727] ERROR:  syntax error at or near "1984" at character 24
+2019-05-17 15:31:03.376 -04 [81727] STATEMENT:  UPDATE movies SET date 1984-01-01
+	UPDATE movies SET gender 'Drama';
+ERROR:  syntax error at or near "1984"
+LINE 1: UPDATE movies SET date 1984-01-01
+                               ^
+movies=# UPDATE movies SET date 1984-01-01
+UPDATE movies SET gender 'Drama';
+2019-05-17 15:31:10.189 -04 [81727] ERROR:  syntax error at or near "1984" at character 24
+2019-05-17 15:31:10.189 -04 [81727] STATEMENT:  UPDATE movies SET date 1984-01-01
+	UPDATE movies SET gender 'Drama';
+ERROR:  syntax error at or near "1984"
+LINE 1: UPDATE movies SET date 1984-01-01
+                               ^
+movies=# 
+movies=# UPDATE movies SET date = '1984-01-01';
+2019-05-17 15:31:55.680 -04 [81727] ERROR:  column "date" of relation "movies" does not exist at character 19
+2019-05-17 15:31:55.680 -04 [81727] STATEMENT:  UPDATE movies SET date = '1984-01-01';
+ERROR:  column "date" of relation "movies" does not exist
+LINE 1: UPDATE movies SET date = '1984-01-01';
+                          ^
+movies=# UPDATE movies SET year = '1984-01-01';
+UPDATE 2
+movies=# UPDATE movies SET genter = 'Drama';
+2019-05-17 15:32:45.799 -04 [81727] ERROR:  column "genter" of relation "movies" does not exist at character 19
+2019-05-17 15:32:45.799 -04 [81727] STATEMENT:  UPDATE movies SET genter = 'Drama';
+ERROR:  column "genter" of relation "movies" does not exist
+LINE 1: UPDATE movies SET genter = 'Drama';
+                          ^
+movies=# UPDATE movies SET gender = 'Drama';
+UPDATE 2
+movies=# SELECT * FROM movies
+movies-# UPDATE movies SET gender = 'Drama';;
+2019-05-17 15:33:59.831 -04 [81727] ERROR:  syntax error at or near "movies" at character 29
+2019-05-17 15:33:59.831 -04 [81727] STATEMENT:  SELECT * FROM movies
+	UPDATE movies SET gender = 'Drama';
+ERROR:  syntax error at or near "movies"
+LINE 2: UPDATE movies SET gender = 'Drama';
+               ^
+movies=# SELECT * FROM movies;
+ id |     name     |    year    | gender 
+----+--------------+------------+--------
+  1 | EL REY LEON  | 1984-01-01 | Drama
+  2 | TERMINATOR 2 | 1984-01-01 | Drama
+(2 rows)
+
+movies=# DELETE FROM movies WHERE name = 'TERMINATOR 2';
+DELETE 1
+movies=# SELECT * FROM movies;
+ id |    name     |    year    | gender 
+----+-------------+------------+--------
+  1 | EL REY LEON | 1984-01-01 | Drama
+(1 row)
+
+movies=# INSERT INTO movies (name) VALUES ('CRIMEN PERFECTO');
+INSERT 0 1
+movies=# 
